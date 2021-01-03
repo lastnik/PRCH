@@ -4,39 +4,39 @@
 #include <cstdio>
 
 #define LOG_DBG(STR, args...) \
-    if(logger->base <= Level::debug) \
+    if(logger::logger->base <= logger::Level::debug) \
     { \
-        print("DEBUG    : "); \
-        print(STR, ##args); \
-        print("\n");\
+        logger::print("DEBUG    : "); \
+        logger::print(STR, ##args); \
+        logger::print("\n");\
     }
 #define LOG_INF(STR, args...) \
-    if(logger->base <= Level::info) \
+    if(logger::logger->base <= logger::Level::info) \
     { \
-        print("INFO     : "); \
-        print(STR, ##args); \
-        print("\n");\
+        logger::print("INFO     : "); \
+        logger::print(STR, ##args); \
+        logger::print("\n");\
     }
 #define LOG_WRG(STR, args...) \
-    if(logger->base <= Level::waring) \
+    if(logger::logger->base <= logger::Level::waring) \
     { \
-        print("WARNING  : "); \
-        print(STR, ##args); \
-        print("\n");\
+        logger::print("WARNING  : "); \
+        logger::print(STR, ##args); \
+        logger::print("\n");\
     }
 #define LOG_ERR(STR, args...) \
-    if(logger->base <= Level::error) \
+    if(logger::logger->base <= logger::Level::error) \
     { \
-        print("ERROR    : "); \
-        print(STR, ##args); \
-        print("\n");\
+        logger::print("ERROR    : "); \
+        logger::print(STR, ##args); \
+        logger::print("\n");\
     }
 #define LOG_CRT(STR, args...) \
-    if(logger->base <= Level::critical) \
+    if(logger::logger->base <= logger::Level::critical) \
     { \
-        print("CRITICAL : "); \
-        print(STR, ##args); \
-        print("\n");\
+        logger::print("CRITICAL : "); \
+        logger::print(STR, ##args); \
+        logger::print("\n");\
     }
 namespace logger
 {
@@ -56,6 +56,7 @@ extern LoggerDescriptor* logger;
 void open(const char* str);
 void open();
 void close();
+void setLevel(Level);
 template<typename... Args>
 void print(Level lvl, const char* str, Args... vals);
 
@@ -69,12 +70,13 @@ public:
     friend void logger::open(const char* str);
     friend void logger::open();
     friend void logger::close();
-
+    friend void logger::setLevel(Level);
     LoggerDescriptor(LoggerDescriptor const&) = delete;
 private:
     LoggerDescriptor() = default;
     FILE* fd   = nullptr;
-    Level base = Level::waring;
+public:
+    Level base = Level::debug;
 };
 
 template<typename... Args>

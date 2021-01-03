@@ -1,9 +1,10 @@
 include(set_common_options)
 
 add_library(prch STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/TypeOne.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/TypeTwo.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/TypeThree.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Generator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/KindOne.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/KindTwo.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/KindThree.cpp
 )
 
 target_include_directories(prch

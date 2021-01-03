@@ -11,6 +11,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_modules)
 
 include(set_common_options)
 
+set(nlohmann_json_DIR ${CMAKE_SOURCE_DIR}/json)
+find_package(nlohmann_json 3.9.1 REQUIRED)
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
@@ -26,6 +30,7 @@ target_link_libraries(diplomPRCH
     PRIVATE
         global
         application
+        nlohmann_json::nlohmann_json -static
 )
 
 set_common_options(diplomPRCH)

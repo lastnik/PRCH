@@ -10,7 +10,7 @@ inline uint64_t mem_align(uint64_t size, uint64_t align = SIMD512_ALIGN_LEN) __a
 inline uint64_t mem_align(uint64_t size, uint64_t align)
 {
     auto s = size / align;
-    return (size % align) ? s * align + 1 : s * align;
+    return (size % align) ? (s + 1) * align : s * align;
 }
 
 template<typename T>
@@ -39,9 +39,9 @@ inline void mem_free(T* p)
 }
 
 template<typename T>
-void mem_zero(T* p, size_t num) __attribute__((always_inline));
+inline void mem_zero(T* p, size_t num) __attribute__((always_inline));
 template<typename T>
-void mem_zero(T* p, size_t num)
+inline void mem_zero(T* p, size_t num)
 {
     memset(p, 0, sizeof(T) * num);
 }

@@ -17,7 +17,6 @@ void open(const char* str)
     logger->fd = fopen(str, "w");
 }
 
-
 void open()
 {
     if(logger != nullptr)
@@ -27,6 +26,11 @@ void open()
     }
     logger = new LoggerDescriptor();
     logger->fd = stdout;
+}
+
+void setLevel(Level lvl)
+{
+    logger->base = lvl;
 }
 
 void close()
