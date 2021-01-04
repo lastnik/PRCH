@@ -16,7 +16,7 @@ DecodeInd KindThree::decode(DecodeReq const& req)
     uint64_t sizeBit = req.size * req.alignBit;
     DecodeInd ind;
     ind.isDecoded = false;
-
+    ind.efficiency = 0;
     for(uint64_t length = 1; length < sizeBit; length++)
     {
         for(uint64_t i = 0; i < static_cast<uint64_t>(PrchType::num); i++)
@@ -50,26 +50,12 @@ DecodeInd KindThree::decode(DecodeReq const& req)
                 {
                     ind.isDecoded = true;
                     ind.efficiency = sizeBit / (4 * 2 + 2 * std::ceil(std::log2f(sizeBit)));
+                    return ind;
                 }
             }
         }
     }
-
-    // for(uint64_t i = 0; i < static_cast<uint64_t>(PrchType::num); i++)
-    // {
-    //     generate(i, data[i], sizeBit);
-    //     if(data[i] == req.val)
-    //     {
-    //         ind.isDecoded = true;
-    //         break;
-    //     }
-    // }
-    // if(ind.isDecoded)
-    // {
-    //     ind.efficiency = sizeBit / (4 + std::ceil(std::log2f(sizeBit)));
-    // }
     return ind;
-
 }
 
 

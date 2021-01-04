@@ -2,7 +2,7 @@
 #include "BigBinary.hpp"
 #include "Generator.hpp"
 #include "KindOne.hpp"
-#include <array>
+#include <vector>
 namespace prch
 {
 using namespace binary;
@@ -32,13 +32,17 @@ struct DecodeInd;
 class KindTwo
 {
 public:
-    explicit KindTwo(SetupReq const&){}
-    //void decode(DecodeReq const&);
-    DecodeInd decode(DecodeReq const&){
-        return DecodeInd();
-    }
+    explicit KindTwo(SetupReq const&);
+    DecodeInd decode(DecodeReq const&);
 private:
-//    std::array<BigBinary, static_cast<uint32_t>(PrchType::num)> data;
+    uint64_t mod(uint64_t, uint64_t);
+
+    BigBinary divider;
+    BigBinary residue;
+    BigBinary collect;
+    BigBinary variable;
+    BigBinary zero;
+    std::vector<uint8_t> table;
 };
 
 }

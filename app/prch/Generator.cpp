@@ -194,8 +194,8 @@ void generate(const Prch<PrchType::ten>&, BigBinary& val, uint64_t bitSize)
         size64--;
         end = 64;
     }
-    auto* ptr = val.data() + size64;
-    val.set((uint64_t(1) << (end - 1)) & *ptr, size64, 1);
+    auto* ptr = val.data();
+    val.set(uint64_t(1) | *ptr, 0, 1);
 }
 
 template<>
@@ -203,7 +203,7 @@ void generate(const Prch<PrchType::eleven>&, BigBinary& val, uint64_t bitSize)
 {
     uint64_t size64 = bitSize >> 6;
     uint64_t end    = bitSize & (64 - 1);
-    generate(get<PrchType::four>(), val, bitSize);
+    val.zero();
     if(bitSize == 0)
         return;
     if(end == 0)
@@ -211,8 +211,13 @@ void generate(const Prch<PrchType::eleven>&, BigBinary& val, uint64_t bitSize)
         size64--;
         end = 64;
     }
-    auto* ptr = val.data() + size64;
-    val.set((uint64_t(11) << (end - 2)) & *ptr, size64, 1);
+    if(end == 1)
+    {
+        val.set(uint64_t(1), size64, 1);
+    }
+    val.set((uint64_t(0b11) << (end - 2)), size64, 1);
+    auto* ptr = val.data();
+    val.set((uint64_t(1) | *ptr), 0, 1);
 }
 
 template<>
@@ -229,7 +234,7 @@ void generate(const Prch<PrchType::twelve>&, BigBinary& val, uint64_t bitSize)
         end = 64;
     }
     auto* ptr = val.data() + size64;
-    val.set((uint64_t(10) << (end - 2)) | *ptr, size64, 1);
+    val.set((uint64_t(0b10) << (end - 2)) | *ptr, size64, 1);
 }
 
 template<>
@@ -245,7 +250,8 @@ void generate(const Prch<PrchType::fourteen>&, BigBinary& val, uint64_t bitSize)
     if(bitSize == 0)
         return;
     auto* ptr = val.data();
-    val.set(uint64_t(01) | (*ptr << 2), 0, 1);
+    constexpr uint64_t valFd = 0xfffffffffffffffd;
+    val.set(valFd & (*ptr), 0, 1);
 }
 
 template<>
